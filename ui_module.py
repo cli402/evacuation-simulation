@@ -41,7 +41,7 @@ class UserInterface:
                 done = True # Flag that we are done so we exit this loop
         return done
 
-    def drawScreen(self, grid):
+    def drawScreen(self, coordinates):
         # First, clear the screen to white. Don't put other drawing commands
         # above this, or they will be erased with this command.
         self.screen.fill(WHITE)
@@ -49,12 +49,10 @@ class UserInterface:
         # Draw the background image first
         self.screen.blit(self.bg_img, [0, 0])
 
-        for y_offset in xrange(self.y_range):
-            for x_offset in xrange(self.x_range):
-                if grid[y_offset][x_offset]:
-                    x = x_offset*self.tile_size
-                    y = y_offset*self.tile_size
-                    pygame.draw.ellipse(self.screen, RED, [x, y, self.tile_size, self.tile_size], 0)
+        for coord in coordinates:
+            x = coord[0]*self.tile_size
+            y = coord[1]*self.tile_size
+            pygame.draw.ellipse(self.screen, RED, [x, y, self.tile_size, self.tile_size], 0)
 
         # Go ahead and update the screen with what we've drawn.
         pygame.display.flip()
