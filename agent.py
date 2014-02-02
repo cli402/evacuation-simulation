@@ -1,45 +1,36 @@
-'''
-Created on Jan 25, 2014
-
-@author: saneal
-'''
-
-
-import math
-
+from vector import Vector
 
 class Agent:
-    def __init__(self, x, y, velocity, direction):
-        self.x = x
-        self.y = y
-        self.v = velocity
-        self.c = 0
-        self.direction = direction
-    def Direction(self, choice):
-        self.c = choice
-        if choice == 1:
-            p_move = [self.x, self.y+1, self.v]
-            return p_move
-        elif choice == 2:
-            p_move = [self.x+1, self.y+1, self.v*math.sqrt(2)]
-            return p_move
-        elif choice == 3:
-            p_move = [self.x-1, self.y+1, self.v*math.sqrt(2)]
-            return p_move
-        elif choice == 4:
-            p_move = [self.x+1, self.y, self.v]
-            return p_move
-        elif choice == 5:
-            p_move = [self.x-1, self.y+1, self.v]
-            return p_move
-        elif choice == 6:
-            p_move = [self.x, self.y-1, self.v]
-            return p_move
-        elif choice == 7:
-            p_move = [self.x+1, self.y-1, self.v*math.sqrt(2)]
-            return p_move
-        else:
-            p_move = [self.x-1, self.y-1, self.v*math.sqrt(2)]
-            return p_move
-            
-        
+	travel_interval = 0
+	considering_time = 0
+	coordinate = None
+	destination = None
+
+	def __init__(self, t_interval, c_time, coordinate, destination):
+		self.travel_interval = t_interval
+		self.considering_time = c_time
+		self.coordinate = coordinate
+		self.destination = destination
+		print "agent initialed on"+str(coordinate)+"to"+str(destination)
+		
+	def moving_direction(self, available_list):
+		willing_direction = self.destination - self.coordinate
+		willing_direction.x = 1 if willing_direction.x>0 else -1 if willing_direction.x<0 else 0
+		willing_direction.y = 1 if willing_direction.y>0 else -1 if willing_direction.y<0 else 0
+		print "willing direction" + str(willing_direction)
+		selected_direction = Vector(0,0)
+		delta_len = 10
+		for direction in available_list :
+			delta = willing_direction - direction
+			if delta.length() < delta_len :
+				selected_direction = direction
+				delta_len = delta.length()
+		print "selected direction" + str(selected_direction)
+		return selected_direction
+
+	def move(self, direction):
+		print "agent move from "+str(self.coordinate),
+		self.coordinate += direction
+		print "to " + str(self.coordinate)
+		if direction.diagonal() : return int(self.travel_interval*1.414)
+		else : return self.travel_interval
