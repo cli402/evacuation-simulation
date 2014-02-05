@@ -10,6 +10,12 @@ class Terrain:
 			self.terrain_set[agent.coordinate] = agent
 			return True
 
+	def block_agents_around(self, position) :
+		for delta in direction_vectors :
+			agent = self.terrain_set.get(position+delta)
+			if agent and agent.status == 'block' : yield agent
+			return 
+
 	def remove_agent(self, agent) :
 		del self.terrain_set[agent.coordinate]
 
@@ -21,13 +27,17 @@ class Terrain:
 				available_list.append(direction)
 		print 'available surrounding is'+''.join([str(vector) for vector in available_list])
 		return available_list
-			
-	def available(self, position):
+
+	def valid(self, position):
 # boundary detection, to be updated
 		if (position.x < 0) or (position.y < 0) \
 		or (position.x > 20) or (position.y > 20) \
 		or (position == Vector(5,5)):
 			return False
+		else : return True
+			
+	def available(self, position):
+		if not self.valid(position) : return False
 		if self.terrain_set.get(position) : return False
 		else : return True
 

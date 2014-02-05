@@ -1,16 +1,23 @@
 from vector import Vector
+from event import Event
 
 class Agent:
+	ID = ''
 	travel_interval = 0
 	considering_time = 0
 	coordinate = None
 	destination = None
+	status = ''
+	next_wait_time = 0
 
-	def __init__(self, t_interval, c_time, coordinate, destination):
+	def __init__(self, ID, t_interval, c_time, coordinate, destination):
+		self.ID = ID
 		self.travel_interval = t_interval
 		self.considering_time = c_time
 		self.coordinate = coordinate
 		self.destination = destination
+		self.status = 'waiting'
+		self.next_wait_time = 0
 		print "agent initialed on"+str(coordinate)+"to"+str(destination)
 		
 	def moving_direction(self, available_list):
@@ -28,9 +35,22 @@ class Agent:
 		print "selected direction" + str(selected_direction)
 		return selected_direction
 
+	def next_event(self, ):
+		if self.last_move.diagonal() : interval = int(self.travel_interval*1.414)
+		else : interval = self.travel_interval
+		return Event(self,'move',self.next_wait_time)
+
 	def move(self, direction):
-		print "agent move from "+str(self.coordinate),
+		print "agent",self.ID," move from "+str(self.coordinate),
 		self.coordinate += direction
+		self.last_move = direction
+		self.status = 'waiting'
 		print "to " + str(self.coordinate)
-		if direction.diagonal() : return int(self.travel_interval*1.414)
-		else : return self.travel_interval
+		if self.last_move.diagonal() : self.next_wait_time = int(self.travel_interval*1.414)
+		else : self.next_wait_time = self.travel_interval
+		return
+	
+	def block(self) :
+		self.status = 'blocking'
+		self.next_wait_time = 0
+		return

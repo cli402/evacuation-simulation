@@ -5,11 +5,13 @@ class Event():
 	event_type = 'move'
 	agent = None
 	type_set = set(['wait','move'])
+	scheduled_time = 0
 	
-	def __init__(self, agent, event_type = 'move') : 
+	def __init__(self, agent, event_type = 'move', scheduled_time = 0) : 
 		if event_type in self.type_set : 
 			self.event_type = event_type
 		self.agent = agent
+		self.scheduled_time = scheduled_time
 		return 
 
 class Event_queue:
@@ -19,7 +21,8 @@ class Event_queue:
 		self.priority_queue_list = [[] for i in range(30)]
 		return
 
-	def add_priority_queue(self, event, priority):
+	def add_priority_queue(self, event):
+		priority = event.scheduled_time
 		priority_queue = self.priority_queue_list[priority]
 		priority_queue.append(event)
 		return
