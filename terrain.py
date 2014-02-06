@@ -1,9 +1,26 @@
 from vector import Vector
+import struct as st
 
 direction_vectors = [Vector(1,1),Vector(1,0),Vector(1,-1),Vector(0,-1),
 					Vector(-1,-1),Vector(-1,0),Vector(-1,-1),Vector(0,1),]
 class Terrain:
 	terrain_set = {}
+	terrain_shape = []
+	width,depth = 0,0
+	
+	def __init__(self) :
+		file_handle = open("map.dat",'rb')
+		self.width = st.unpack("i", file_handle.read(4))[0]
+		self.depth = st.unpack("i", file_handle.read(4))[0]
+		self.terrain_shape = [[False for j in range(self.width)] for i in range(self.depth)]
+		print 'depth',len(self.terrain_shape)
+		print 'width',len(self.terrain_shape[3])
+		for i in range(self.depth) :
+			for j in range(self.width/32) :
+				decoder = st.unpack("i", file_handle.read(4))[0]
+				for k in range(32) :
+					self.terrain_shape[i][j*32+k] = True if (decoder & (1 << (32-k))) else False
+		
 	def add_agent(self, agent) :
 		if not self.available(agent.coordinate) : return False
 		else :
@@ -29,10 +46,9 @@ class Terrain:
 		return available_list
 
 	def valid(self, position):
-# boundary detection, to be updated
 		if (position.x < 0) or (position.y < 0) \
-		or (position.x > 20) or (position.y > 20) \
-		or (position == Vector(5,5)):
+		or (position.x > self.width) or (position.y > self.depth) \
+		or (not self.terrain_shape[position.y][position.x]):
 			return False
 		else : return True
 			
@@ -45,4 +61,8 @@ class Terrain:
 		del self.terrain_set[agent.coordinate] 
 		self.terrain_set[agent.coordinate+direction] = agent
 
-
+if __name__=='__main__' :
+	terrain = Terrain()
+	for i in range(480):
+		if terrain.valid(Vector(i,297)) : 
+			print '%d,298' % i ,'valid'

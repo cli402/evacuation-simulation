@@ -3,7 +3,7 @@
 
 int main(int argn, char * argc[])
 {
-	unsigned int width = 909, depth = 298, pedding, width_with_pedding;
+	unsigned int width = 455, depth = 298, pedding, width_with_pedding;
 	unsigned int boat, sign;
 	int i,j,count;
 	FILE *fp_in, *fp_out;
