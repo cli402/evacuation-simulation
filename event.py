@@ -3,14 +3,14 @@ import random
 
 class Event():
 	event_type = 'move'
-	agent = None
-	type_set = set(['wait','move'])
+	entity = None
+	type_set = set(['new_agent', 'agent_die','agent_move', 'none'])
 	scheduled_time = 0
 	
-	def __init__(self, agent, event_type = 'move', scheduled_time = 0) : 
+	def __init__(self, entity, event_type , scheduled_time = 0) : 
 		if event_type in self.type_set : 
 			self.event_type = event_type
-		self.agent = agent
+		self.entity = entity
 		self.scheduled_time = scheduled_time
 		return 
 

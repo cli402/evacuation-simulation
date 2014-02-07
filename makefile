@@ -9,4 +9,4 @@ map_construct.o: map_construct.c
 	gcc -c $<
 
 clean:
-	rm *.out
+	rm -f *.o

@@ -8,13 +8,14 @@ class Terrain:
 	terrain_shape = []
 	width,depth = 0,0
 	
-	def __init__(self) :
-		file_handle = open("map.dat",'rb')
+	def __init__(self, filename) :
+		file_handle = open(filename,'rb')
 		self.width = st.unpack("i", file_handle.read(4))[0]
 		self.depth = st.unpack("i", file_handle.read(4))[0]
 		self.terrain_shape = [[False for j in range(self.width)] for i in range(self.depth)]
-		print 'depth',len(self.terrain_shape)
-		print 'width',len(self.terrain_shape[3])
+
+		print 'map created with: depth',len(self.terrain_shape),'width',len(self.terrain_shape[3])
+
 		for i in range(self.depth) :
 			for j in range(self.width/32) :
 				decoder = st.unpack("i", file_handle.read(4))[0]
@@ -42,7 +43,7 @@ class Terrain:
 			neighborhood = agent.coordinate + direction
 			if self.available(neighborhood) : 
 				available_list.append(direction)
-		print 'available surrounding is'+''.join([str(vector) for vector in available_list])
+#		print 'available surrounding is'+''.join([str(vector) for vector in available_list])
 		return available_list
 
 	def valid(self, position):
