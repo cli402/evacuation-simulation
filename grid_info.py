@@ -77,17 +77,20 @@ goal_coords = [
 ]
 
 
+# 313 is the y coordinate for bottom row of cells on Armstead south sidewalk,
+# given in person sized cell coordinates.
+# The range for the x coordinates is 73 - 417, inclusive
 door_coords = [
-    {'min': (200, 400),
-     'max': (210, 400)},
-    {'min': (150, 410),
-     'max': (150, 420)},
-    {'min': (240, 400),
-     'max': (250, 400)},
-    {'min': (250, 400),
-     'max': (260, 400)},
-    {'min': (320, 410),
-     'max': (320, 420)}
+    {'min': (74, 313),
+     'max': (84, 313)},
+    {'min': (100, 313),
+     'max': (110, 313)},
+    {'min': (250, 313),
+     'max': (260, 313)},
+    {'min': (310, 313),
+     'max': (320, 313)},
+    {'min': (400, 313),
+     'max': (410, 313)}
 ]
 
 
