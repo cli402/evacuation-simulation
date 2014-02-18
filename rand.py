@@ -17,17 +17,20 @@ r = 3399
 x = 0
 
 
-def rand(min=None, max=None):
+def rand(minimum=None, maximum=None):
     global x
     t = (a * (x % q)) - (r * (x / q))
     x = t if t > 0 else t + m
     tempx = x
-    if (min and max):
-        tempx = tempx % ((max + 1) - min) + min
-    elif min:
-        tempx = tempx + min
-    elif max:
-	    tempx = tempx % (max + 1)
+    if (minimum is not None) and (maximum is not None):
+        if (minimum == maximum):
+            tempx = minimum
+        else:
+            tempx = tempx % ((maximum + 1) - minimum) + minimum
+    elif minimum is not None:
+        tempx = tempx + minimum
+    elif maximum is not None:
+	    tempx = tempx % (maximum + 1)
     #x = (a * x) % m
     #x = (a * x + c) % m
     return tempx;
