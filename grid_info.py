@@ -56,3 +56,49 @@ grid = [
     (40, 10, (836, 620)),   #36  West Peachtree, Armstead, south crosswalk
 ]
 
+
+goal_coords = [
+    ({'min': (0, grid[11][2][1] / person_size),
+      'max': (0, (grid[11][2][1] + grid[11][1]) / person_size)},
+     {'min': (0, grid[4][2][1] / person_size),
+      'max': (0, (grid[4][2][1] + grid[4][1]) / person_size)}),
+    ({'min': (grid[0][2][0] / person_size, 0),
+      'max': ((grid[0][2][0] + grid[0][0]) / person_size, 0)},
+     {'min': (grid[1][2][0] / person_size, 0),
+      'max': ((grid[1][2][0] + grid[1][0]) / person_size, 0)}),
+    ({'min': (grid[2][2][0] / person_size, 0),
+      'max': ((grid[2][2][0] + grid[2][0]) / person_size, 0)},
+     {'min': (grid[3][2][0] / person_size, 0),
+      'max': ((grid[3][2][0] + grid[3][0]) / person_size, 0)}),
+    ({'min': ((grid[22][2][0] + grid[22][0]) / person_size, grid[22][2][1] / person_size),
+      'max': ((grid[22][2][0] + grid[22][0]) / person_size, (grid[22][2][1] + grid[22][1]) / person_size)},
+     {'min': ((grid[25][2][0] + grid[25][0]) / person_size, grid[25][2][1] / person_size),
+      'max': ((grid[25][2][0] + grid[25][0]) / person_size, (grid[25][2][1] + grid[25][1]) / person_size)})
+]
+
+
+door_coords = [
+    {'min': (200, 400),
+     'max': (210, 400)},
+    {'min': (150, 410),
+     'max': (150, 420)},
+    {'min': (240, 400),
+     'max': (250, 400)},
+    {'min': (250, 400),
+     'max': (260, 400)},
+    {'min': (320, 410),
+     'max': (320, 420)}
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
