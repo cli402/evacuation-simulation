@@ -57,6 +57,31 @@ grid = [
 ]
 
 
+# The list structure goes like this: traffic_lights[light[crosswalk_set[cell_coordinates[xmin, ymin, xmax, ymax]]]]
+# There are three traffic lights, each one with two sets of crosswalks (west to east and north to south). For each
+# light, west to east crosswalks are the first set, and north to south crosswalks are the second set. Within each
+# crosswalk set, the cell coordinates for the "start" and "end" of each crosswalk are given. The "start" being the
+# west side for west to east crosswalks, and the north side for north to south crosswalks. The start and end of
+# each crosswalk requires four coordinates, xmin, ymin, xmax, ymax. These four coordinates give the area of cells
+# that the start and end of each crosswalk occupy.
+traffic_lights = [
+    [[[106, 14, 106, 24], [146, 14, 146, 24], [106, 60, 106, 70], [146, 60, 146, 70]],
+     [[96, 24, 106, 24], [96, 60, 106, 60], [146, 24, 156, 24], [146, 60, 156, 60]]],
+    [[[836, 14, 836, 24], [876, 14, 876, 24], [836, 60, 836, 70], [876, 60, 876, 70]],
+     [[826, 24, 836, 24], [826, 60, 836, 60]]],
+    [[[836, 310, 836, 320], [876, 310, 876, 320], [836, 350, 836, 360], [876, 350, 876, 360]],
+     [[876, 320, 886, 320], [876, 350, 886, 350]]]
+]
+
+for light_set in traffic_lights:
+    for light in light_set:
+        for coords in light:
+            coords[0] /= person_size
+            coords[1] /= person_size
+            coords[2] /= person_size
+            coords[3] /= person_size
+
+
 goal_coords = [
     ({'min': (0, grid[11][2][1] / person_size),
       'max': (0, (grid[11][2][1] + grid[11][1]) / person_size)},
@@ -92,6 +117,22 @@ door_coords = [
     {'min': (400, 313),
      'max': (410, 313)}
 ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
