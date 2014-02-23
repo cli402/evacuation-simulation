@@ -1,5 +1,6 @@
 # Grid information
 
+MAX_INT = 32767
 
 
 

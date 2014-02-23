@@ -58,39 +58,3 @@ class Generator:
         queue_time = int(round(self.cdf(rand_val)*10.0))
         return Event(self, 'new_agent', queue_time)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

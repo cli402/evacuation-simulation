@@ -2,6 +2,7 @@
  main.py
 
  author: Daniel Henderson, Jier Chen
+ ALL RIGHT RESERVED
 '''
 
 #System Support
@@ -38,6 +39,7 @@ if __name__ == '__main__':
     rand.srand(int(time.time()))
     agent_queue = Queue.Queue()
 
+#Generator list should not be 
     gen_list = [
         Generator(0, (grid_info.door_coords[0]['min'], grid_info.door_coords[0]['max']), grid_info.goal_coords, 5, rand.gaussian_rand, norm.cdf),
         Generator(1, (grid_info.door_coords[1]['min'], grid_info.door_coords[1]['max']), grid_info.goal_coords, 7, rand.gaussian_rand, norm.cdf),
