@@ -3,6 +3,9 @@ import struct as st
 
 direction_vectors = [Vector(1,1),Vector(1,0),Vector(1,-1),Vector(0,-1),
 					Vector(-1,-1),Vector(-1,0),Vector(-1,-1),Vector(0,1),]
+
+#class Traffic_light
+
 class Terrain:
 	terrain_set = {}
 	terrain_shape = []

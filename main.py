@@ -55,4 +55,11 @@ if __name__ == '__main__':
     print 'Starts to run simulation!'
     while not engine.end_condition :
         engine.step_simulate()
-		
+#		agent.put(engine.flush_agent())
+
+#To enable engine pump agent information into agent_queue, uncomment line above
+#Data structure that engine pumped to agent is 
+#((coordinate X, coordinate Y), agent ID, agent status)
+#	agent status can be two "waiting" and "blocking"
+#	"waiting" means agent is waiting the CD for next move
+#	"blocking" means agent is able to move but blocked at current position, needs some one beside him move to release available grid to him

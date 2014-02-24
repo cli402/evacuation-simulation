@@ -83,3 +83,8 @@ class Engine:
 		self.event_queue.priority_queue_roll()
 		self.time_elapse += 1
 
+	def flush_agent(self):
+		info_list = []
+		for agent in self.terrain_set.values() :
+			info_element = ((agent.coordinate.x,agent.coordinate.y), agent.ID, agent.status)
+			info_list.appent(info_element)
