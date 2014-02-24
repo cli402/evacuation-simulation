@@ -38,9 +38,8 @@ class Engine:
 		if generator.left : return True
 		else : return False
 
-	def dispose_agent(self, event) :
+	def dispose_agent(self, agent) :
 	#This function is to delete an agent from terrain
-		agent = event.entity
 		self.terrain.remove_agent(agent)
 		self.active_agents -= 1
 		#If there is no agent left, simulation terminated
@@ -51,18 +50,20 @@ class Engine:
 	#This is to move an agent to it destinated position, this should really be called most frequently
 	#This need to be adapt new version
 		agent = event.entity
+		if self.terrain.good_to_exit(agent) : 
+			self.dispose_agent(agent)
+			return False
 		available_list = self.terrain.get_available_surrounding(agent)
-		if available_list :
-			direction = agent.moving_direction(available_list) 
-			release_grid = agent.coordinate
-			print '[%4d]: ' % self.time_elapse,
-			print "agent",agent.ID," move from "+str(agent.coordinate),
+		direction = agent.moving_direction(available_list) 
+		if direction : 
+			print '[%4d]: ' % self.time_elapse,"agent",agent.ID," move from "+str(agent.coordinate),
 			self.terrain.move(agent, direction)
 			agent.move(direction)
 			print "to " + str(agent.coordinate)
-			for agents_other in self.terrain.block_agents_around(release_grid):
-				self.event_queue.add_priority_queue(agents_other.next_event())
 		else :
+			print '[%4d]: ' % self.time_elapse,"agent",agent.ID,"stucked"
+			print 'Stuck at:',str(agent.coordinate)
+			print 'Value is:',self.terrain.terrain_shape[agent.coordinate.y][agent.coordinate.x]
 			agent.block()
 		return True
 

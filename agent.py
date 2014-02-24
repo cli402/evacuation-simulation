@@ -1,45 +1,56 @@
 from vector import Vector
 from event import Event
+import random as rd
 
 class Agent:
 	ID = ''
 	travel_interval = 0
 	considering_time = 0
 	coordinate = None
-	destination = None
 	status = ''
 	next_wait_time = 0
 	last_move = Vector(0,0)
 
-	def __init__(self, ID, t_interval, c_time, coordinate, destination):
+	def __init__(self, ID, t_interval, c_time, coordinate):
 		self.ID = ID
 		self.travel_interval = t_interval
 		self.considering_time = c_time
 		self.coordinate = coordinate
-		self.destination = destination
 		self.status = 'waiting'
 		self.next_wait_time = 0
 #		print "agent initialed on"+str(coordinate)+"to"+str(destination)
 		
 	def moving_direction(self, available_list):
-		willing_direction = self.destination - self.coordinate
-		willing_direction.x = 1 if willing_direction.x>0 else -1 if willing_direction.x<0 else 0
-		willing_direction.y = 1 if willing_direction.y>0 else -1 if willing_direction.y<0 else 0
-#		print "willing direction" + str(willing_direction)
-		selected_direction = Vector(0,0)
-		delta_len = 10
-		for direction in available_list :
-			delta = willing_direction - direction
-			if delta.length() < delta_len :
-				selected_direction = direction
-				delta_len = delta.length()
-#		print "selected direction" + str(selected_direction)
-		return selected_direction
+		#low_list is list of direction that goes down
+		#inside which all difference on non-diagonal directions will multiple by 2
+		#this is to urge agent go streight, also avoid aimless wandering on streight road
+		if not available_list : return None
+		low_list = []
+		for i,(delt,direction) in enumerate(available_list) :
+			if not direction.diagonal :
+				delt *= 2
+				available_list[i] = (delt,direction)
+			if delt > 0 : low_list.append((delt,direction))
+			#delt > 0 mean new place lower than current
+
+		if len(low_list) :	# if there exist lower places, if not will be complete later
+			counter = 0		# for randomization
+			low_list.sort()	
+			for i,(delt,direction) in enumerate(low_list) :
+				if low_list[0][0] - delt >= 10 :	# low place delta value 10 less than the greatest will be eliminated
+					low_list = low_list[:i]
+					break
+				else : counter += delt	#add total counter for randomly choose direction
+
+			p = rd.randint(0,counter)	#p is pointer to which to choose
+			for i,(delt,direction) in enumerate(low_list) :
+				p -= delt
+				if p <= 0 : return direction
+		else :	# if there is no available places to go, should be down later
+			pass
 
 	def next_event(self):
-		if self.coordinate == self.destination : return Event(self, 'agent_die', 5)
-		if self.last_move.diagonal() : interval = int(self.travel_interval*1.414)
-		else : interval = self.travel_interval
+#		if self.coordinate == self.destination : return Event(self, 'agent_die', 5)
 		return Event(self,'agent_move',self.next_wait_time)
 
 	def move(self, direction):
@@ -48,11 +59,11 @@ class Agent:
 		self.last_move = direction
 		self.status = 'waiting'
 #		print "to " + str(self.coordinate)
-		if self.last_move.diagonal() : self.next_wait_time = int(self.travel_interval*1.414)
+		if direction.diagonal() : self.next_wait_time = int(self.travel_interval*1.414)
 		else : self.next_wait_time = self.travel_interval
 		return
 	
 	def block(self) :
 		self.status = 'blocking'
-		self.next_wait_time = 0
+		self.next_wait_time = self.considering_time
 		return
