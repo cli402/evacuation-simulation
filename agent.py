@@ -18,7 +18,6 @@ class Agent:
 		self.coordinate = coordinate
 		self.status = 'waiting'
 		self.next_wait_time = 0
-#		print "agent initialed on"+str(coordinate)+"to"+str(destination)
 		
 	def moving_direction(self, available_list):
 		#low_list is list of direction that goes down
@@ -36,6 +35,7 @@ class Agent:
 		if len(low_list) :	# if there exist lower places, if not will be complete later
 			counter = 0		# for randomization
 			low_list.sort()	
+			low_list.reverse()	#Make low_list descendent that first one always be the greatest
 			for i,(delt,direction) in enumerate(low_list) :
 				if low_list[0][0] - delt >= 10 :	# low place delta value 10 less than the greatest will be eliminated
 					low_list = low_list[:i]

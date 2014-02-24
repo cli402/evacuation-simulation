@@ -1,3 +1,4 @@
+#!/usr/bin/python
 '''
  main.py
 
@@ -10,8 +11,8 @@ import threading
 import Queue
 
 #UI module
-import grid_info
-import ui_module
+#import grid_info
+#import ui_module
 
 #Engine Part
 from engine import Engine
@@ -54,3 +55,4 @@ if __name__ == '__main__':
     print 'Starts to run simulation!'
     while not engine.end_condition :
         engine.step_simulate()
+		
