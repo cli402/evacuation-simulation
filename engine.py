@@ -85,6 +85,7 @@ class Engine:
 
 	def flush_agent(self):
 		info_list = []
-		for agent in self.terrain_set.values() :
+		for agent in self.terrain.terrain_set.values() :
 			info_element = ((agent.coordinate.x,agent.coordinate.y), agent.ID, agent.status)
-			info_list.appent(info_element)
+			info_list.append(info_element)
+		return info_list
