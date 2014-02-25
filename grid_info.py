@@ -56,7 +56,7 @@ grid = [
     (690, 8, (146, 620)),   #35  Armstead, south sidewalk
     (40, 10, (836, 620)),   #36  West Peachtree, Armstead, south crosswalk
     (8, 20, (146, 628)),    #37  Spring, south of Armstead, east sidewalk
-    (8, 20, (828 ,628))     #38  West Peachtree, south of Armstead, west sidewalk
+    (8, 20, (828, 628))     #38  West Peachtree, south of Armstead, west sidewalk
 ]
 
 
@@ -107,17 +107,19 @@ goal_coords = [
 
 # 313 is the y coordinate for bottom row of cells on Armstead south sidewalk,
 # given in person sized cell coordinates.
-# The range for the x coordinates is 73 - 417, inclusive
+# The range for the x coordinates is 77 - 413, inclusive
+# The x coordinate for spring south sidewalk is 76, the y range is 314 - 323, inclusive
+# The x coordinate for west peachtree south sidewalk is 414, the y range is 314 - 323, inclusive
 door_coords = [
-    {'min': (74, 313),
-     'max': (76, 313)},
-    {'min': (100, 313),
-     'max': (102, 313)},
-    {'min': (250, 313),
-     'max': (252, 313)},
+    {'min': (77, 313),
+     'max': (78, 313)},
+    {'min': (76, 314),
+     'max': (76, 315)},
+    {'min': (414, 314),
+     'max': (414, 315)},
     {'min': (310, 313),
      'max': (312, 313)},
-    {'min': (400, 313),
-     'max': (402, 313)}
+    {'min': (412, 313),
+     'max': (413, 313)}
 ]
 
