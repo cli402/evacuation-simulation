@@ -19,32 +19,32 @@ y_range = int(grid_size[1] / tile_size)
 # start_x is x coord where to start building grid section, dimensions in feet
 # start_x is y coord where to start building grid section, dimensions in feet
 grid = [
-    (12, 24, (94, 0)),    #1  Spring, north of 5th, west sidewalk
-    (10, 24, (146, 0)),    #2  Spring, north of 5th, east sidewalk
-    (12, 24, (824, 0)),    #3  West Peachtree, north of 5th, west sidewalk
-    (10, 60, (876, 0)),    #4  West Peachtree, north of 5th, east sidewalk
-    (106, 12, (0, 12)),    #5  5th, running west, north sidewalk
-    (40, 10, (106, 14)),   #6  Spring, 5th, north crosswalk
-    (690, 10, (146, 14)),  #7  5th, between West Peachtree and Spring, north sidewalk
-    (40, 10, (836, 14)),   #8  West Peachtree, 5th between West Peachtree and Spring, north crosswalk
-    (10, 36, (96, 24)),   #9  5th, running west, Spring, west crosswalk
-    (10, 36, (146, 24)),   #10  5th, running west, Spring, east crosswalk
-    (10, 36, (826, 24)),   #11  5th, between West Peachtree and Spring, West Peachtree, crosswalk
-    (106, 14, (0, 60)),    #12  5th, running west, south sidewalk
-    (40, 10, (106, 60)),   #13  Spring, 5th, south crosswalk
-    (210, 12, (146, 60)),  #14  5th, between West Peachtree and Spring, west side, south sidewalk
-    (330, 8, (356, 60)),   #15  5th, between West Peachtree and Spring, middle, south sidewalk
-    (220, 10, (596, 60)),  #16  5th, between West Peachtree and Spring, east, south sidewalk
-    (40, 10, (836, 60)),   #17  West Peachtree, 5th between West Peachtree and Spring, south crosswalk
-    (16, 570, (90, 60)),  #18  Spring, between Armstead and 5th, west sidewalk
-    (12, 530, (146, 60)),  #19  Spring, between Armstead and 5th, east sidewalk
-    (20, 260, (816, 60)),  #20  West Peachtree, between 5th and 5th, west sidewalk
-    (10, 260, (876, 60)),  #21  West Peachtree, between 5th and 5th, east sidewalk
+    (12, 24, (94, 0)),      #1  Spring, north of 5th, west sidewalk
+    (10, 24, (146, 0)),     #2  Spring, north of 5th, east sidewalk
+    (12, 24, (824, 0)),     #3  West Peachtree, north of 5th, west sidewalk
+    (10, 60, (876, 0)),     #4  West Peachtree, north of 5th, east sidewalk
+    (106, 12, (0, 12)),     #5  5th, running west, north sidewalk
+    (40, 10, (106, 14)),    #6  Spring, 5th, north crosswalk
+    (690, 10, (146, 14)),   #7  5th, between West Peachtree and Spring, north sidewalk
+    (40, 10, (836, 14)),    #8  West Peachtree, 5th between West Peachtree and Spring, north crosswalk
+    (10, 36, (96, 24)),     #9  5th, running west, Spring, west crosswalk
+    (10, 36, (146, 24)),    #10  5th, running west, Spring, east crosswalk
+    (10, 36, (826, 24)),    #11  5th, between West Peachtree and Spring, West Peachtree, crosswalk
+    (106, 14, (0, 60)),     #12  5th, running west, south sidewalk
+    (40, 10, (106, 60)),    #13  Spring, 5th, south crosswalk
+    (210, 12, (146, 60)),   #14  5th, between West Peachtree and Spring, west side, south sidewalk
+    (330, 8, (356, 60)),    #15  5th, between West Peachtree and Spring, middle, south sidewalk
+    (220, 10, (596, 60)),   #16  5th, between West Peachtree and Spring, east, south sidewalk
+    (40, 10, (836, 60)),    #17  West Peachtree, 5th between West Peachtree and Spring, south crosswalk
+    (16, 570, (90, 60)),    #18  Spring, between Armstead and 5th, west sidewalk
+    (12, 530, (146, 60)),   #19  Spring, between Armstead and 5th, east sidewalk
+    (20, 260, (816, 60)),   #20  West Peachtree, between 5th and 5th, west sidewalk
+    (10, 260, (876, 60)),   #21  West Peachtree, between 5th and 5th, east sidewalk
     (40, 10, (836, 310)),   #22  West Peachtree, 5th running east, north crosswalk
-    (12, 10, (886, 310)),  #23  5th, running east, north sidewalk
+    (12, 10, (886, 310)),   #23  5th, running east, north sidewalk
     (10, 30, (876, 320)),   #24  5th, running east, crosswalk
     (40, 10, (836, 350)),   #25  West Peachtree, 5th running east, south crosswalk
-    (12, 10, (886, 350)),  #26  5th, running east, south sidwalk
+    (12, 10, (886, 350)),   #26  5th, running east, south sidwalk
     (10, 260, (826, 320)),  #27  West Peachtree, between Armstead and 5th, west sidewalk
     (10, 280, (876, 350)),  #28  West Peachtree, between Armstead and 5th, east sidewalk
     (40, 10, (106, 580)),   #29  Spring, Armstead, north crosswalk
@@ -55,6 +55,8 @@ grid = [
     (40, 10, (106, 620)),   #34  Spring, Armstead, south crosswalk
     (690, 8, (146, 620)),   #35  Armstead, south sidewalk
     (40, 10, (836, 620)),   #36  West Peachtree, Armstead, south crosswalk
+    (8, 20, (146, 628)),    #37  Spring, south of Armstead, east sidewalk
+    (8, 20, (828 ,628))     #38  West Peachtree, south of Armstead, west sidewalk
 ]
 
 
@@ -108,14 +110,14 @@ goal_coords = [
 # The range for the x coordinates is 73 - 417, inclusive
 door_coords = [
     {'min': (74, 313),
-     'max': (84, 313)},
+     'max': (76, 313)},
     {'min': (100, 313),
-     'max': (110, 313)},
+     'max': (102, 313)},
     {'min': (250, 313),
-     'max': (260, 313)},
+     'max': (252, 313)},
     {'min': (310, 313),
-     'max': (320, 313)},
+     'max': (312, 313)},
     {'min': (400, 313),
-     'max': (410, 313)}
+     'max': (402, 313)}
 ]
 
