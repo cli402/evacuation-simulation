@@ -11,8 +11,8 @@ import threading
 import Queue
 
 #UI module
-#import grid_info
-#import ui_module
+import grid_info
+import ui_module
 
 #Engine Part
 from engine import Engine
@@ -24,33 +24,56 @@ import rand
 import time
 
 #for gaussian cdf
-from scipy.stats import norm
+#from scipy.stats import norm
 
 
-def ui():
-	UI = ui_module.UserInterface(grid_info.grid_size, grid_info.tile_size, 'tech_square.jpg')
+# macro to switch whether to use user interface or not
+USE_UI = True
+end_condition = False
 
-	while not UI.checkEvents():
-		coordinates = agent_queue.get()
-		UI.drawScreen(coordinates)
-	UI.quit()
+class Ui(threading.Thread):
+    UI = None
 
+    def __init__(self, grid_size, tile_size, queue, door_coords):
+        self.grid_size = grid_size
+        self.tile_size = tile_size
+        self.agent_queue = queue
+        self.door_coords = door_coords
+        self.UI = ui_module.UserInterface(self.grid_size, self.tile_size, 'tech_square.jpg', self.door_coords)
+        super(Ui, self).__init__()
+        #threading.Thread.__init__(self)
 
-if __name__ == '__main__':
-	rand.srand(int(time.time()))
-	agent_queue = Queue.Queue()
+    def run(self):
+        global end_condition
+        while not self.UI.checkEvents():
+            try:
+                agents = self.agent_queue.get_nowait()
+            except:
+                agents = []
+            print self.agent_queue.qsize()
+            print end_condition
+            print agents
+            self.UI.drawScreen(agents)
+        self.UI.quit()
 
-#Generator list should not be 
-	gen_list = [
-		Generator(5)
-	]
+class Simulator(threading.Thread):
+    engine = None
+    agent_queue = None
 
-	engine = Engine(terrain = Terrain("grid_bits.txt"), initial_event_list = gen_list)
+    def __init__(self, engine, queue):
+        self.engine = engine
+        self.agent_queue = queue
+        super(Simulator, self).__init__()
+        #threading.Thread.__init__(self)
 
-	print 'Starts to run simulation!'
-	while not engine.end_condition :
-		engine.step_simulate()
-		agent_queue.put(engine.flush_agent())
+    def run(self):
+        global end_condition
+        print 'Starts to run simulation!'
+        while not self.engine.end_condition :
+            self.engine.step_simulate()
+            if USE_UI:
+                self.agent_queue.put(self.engine.flush_agent())
+        end_condition = True
 
 #To enable engine pump agent information into agent_queue, uncomment line above
 #Data structure that engine pumped to agent is 
@@ -58,3 +81,63 @@ if __name__ == '__main__':
 #	agent status can be two "waiting" and "blocking"
 #	"waiting" means agent is waiting the CD for next move
 #	"blocking" means agent is able to move but blocked at current position, needs some one beside him move to release available grid to him
+
+
+def run_simulation(door_coords=grid_info.door_coords, seed=int(time.time())):
+    agent_queue = Queue.Queue()
+    rand.srand(seed)
+
+    #gen_list = [ Generator(0, (201, 295, 1, 0), 5, 3) ]
+    gen_list = [
+        Generator(0, door_coords[0][0], 5, 3),
+        Generator(1, door_coords[0][1], 7, 3),
+        Generator(2, door_coords[0][2], 10, 3),
+        Generator(3, door_coords[0][3], 8, 3),
+        Generator(4, door_coords[1][0], 23, 3),
+        Generator(5, door_coords[1][1], 17, 3),
+        Generator(6, door_coords[2][0], 15, 3),
+        Generator(7, door_coords[3][0], 9, 3),
+        Generator(8, door_coords[4][0], 12, 3),
+        Generator(9, door_coords[5][0], 15, 3)
+    ]
+
+    engine = Engine(terrain = Terrain("grid_bits.txt"), initial_event_list = gen_list)
+
+    simulator = Simulator(engine, agent_queue)
+    simulator.start()
+
+    if USE_UI:
+        ui = Ui(grid_info.grid_size, grid_info.tile_size, agent_queue, door_coords)
+        ui.start()
+        ui.join()
+    
+    simulator.join()
+
+
+if __name__ == '__main__':
+    run_simulation()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
