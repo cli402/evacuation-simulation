@@ -22,21 +22,27 @@ class Engine:
 		self.terrain = terrain	#Terrain is an given data, should be initialized in main
 		#Set operating function into array
 		self.action_list['agent_move'] = self.move_agent
-		self.action_list['agent_die'] = self.dispose_agent
 		self.action_list['new_agent'] = self.create_agent
+		self.action_list['light_switch'] = self.light_switch
 		self.event_queue = Event_queue()
 		for initial_event in initial_event_list :
-			self.event_queue.add_priority_queue(initial_event.next_event())
+			self.event_queue.add_priority_queue(initial_event.first_event())
 
 	def create_agent(self, event) :
 	#This function is to create an agent and set it on its coordinate on map
 		generator = event.entity
 		agent = generator.generate()
-		self.terrain.add_agent(agent)
+		assert self.terrain.add_agent(agent) : 'Agent created out of map'
 		self.event_queue.add_priority_queue(Event(agent, 'agent_move', 0))
 		self.active_agents += 1
 		if generator.left : return True
 		else : return False
+
+	def light_switch(self, event) :
+		light = event.entity
+		area, delta = light.swith()
+		self.terrain.block_change(area, delta)
+		return True
 
 	def dispose_agent(self, agent) :
 	#This function is to delete an agent from terrain

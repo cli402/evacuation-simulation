@@ -72,10 +72,48 @@ class Terrain:
 #		print 'scaning free', free, 'occupied', occupied
 		return free, occupied
 
-
 	def move(self, agent, direction):
 		del self.terrain_set[agent.coordinate] 
 		self.terrain_set[agent.coordinate+direction] = agent
+
+	def block_change(self, area, delta) :
+		for start_point, end_point in area :
+			assert self.valid(start_point) and self.valid(end_point), "Invalid block change coordinate"
+			for i in range(start_point.y, end_point.y+1) :
+				for j in range(start_point.x, end_point.x+1) :
+					self.terrain_shape[i][j] += delta
+
+class Traffic_light():
+	area = None
+	green_time, red_time = 0,0
+	current_color = 0
+
+	def __init__(self, light_coordinate, timming, initial_color) :
+#Traffic_light does not really care what format of light area is, Terrain should take care about it 
+#timming is (green_time, red_time)
+#initial_color, -1 means green light, 1 means red light
+		self.area = light_coordinate
+		self.green_time, self.red_time = timming
+		self.current_color = initial_color
+
+	def switch(self) :
+		self.current_color *= -1
+		print 'Traffic Light', area, 'switch to', 'green' if self.current_color < 0 else 'red'
+		return self.area, self.current_color * 100
+	
+	def next_event(self) :
+		return Event(self, 'light_switch', self.green_time if self.current_color < 0 else self.red_time)
+
+	def first_event(self) :
+		if self.current_color < 0 : 
+			return Event(self, 'light_switch', self.green_time)
+		else :
+			self.current_color = -1
+			return Event(self, 'light_switch', 0)
+		
+		
+		
+		
 
 if __name__=='__main__' :
 	terrain = Terrain("grid_bits.txt")

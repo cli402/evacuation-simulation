@@ -14,12 +14,12 @@ class Event():
 #Basic event type
 	event_type = 'move'
 	entity = None
-	type_set = set(['new_agent', 'agent_die','agent_move', 'none'])
+	type_set = set(['new_agent', 'agent_move', 'none', 'light_switch'])
 	scheduled_time = 0
 	
 	def __init__(self, entity, event_type , scheduled_time = 0) : 
-		if event_type in self.type_set : 
-			self.event_type = event_type
+		assert event_type in self.type_set
+		self.event_type = event_type
 		self.entity = entity
 		self.scheduled_time = scheduled_time
 		return 
@@ -43,6 +43,7 @@ class Event_queue:
 			priority_queue.append(event)
 		else :	# if event exceeded 50, then add it to far event pool
 			self.far_event_pool.append((event.scheduled_time, event))
+			self.far_event_pool.sort()
 		return
 
 	def get_event(self):
@@ -70,6 +71,7 @@ class Event_queue:
 			[(scheduled_time-1,event) 		\
 			for scheduled_time, event in self.far_event_pool]
 		total = 0
+
 		# put all the event that happen inside 50 in to priority queue
 		for scheduled_time, event in enumerate(self.far_event_pool) :
 			if scheduled_time < MAX_PQ_LENGTH :

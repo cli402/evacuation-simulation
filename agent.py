@@ -22,7 +22,7 @@ class Agent:
 
 	def get_wait_time(self, free, occupied) :
 		coefficient = 1.0 if self.last_move.diagonal() else 1.414
-		if free == 0 : raise ZeroDivisionError 
+		assert free != 0 : 'No place to go, Agent should be blocked' 
 		if occupied != 0 : coefficient /= (1-exp(-float(free) / float(occupied)))
 
 		print 'free', free, 'occupied', occupied, 'Coefficient',coefficient
