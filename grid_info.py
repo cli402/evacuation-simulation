@@ -55,8 +55,8 @@ grid = [
     (40, 10, (106, 620)),   #34  Spring, Armstead, south crosswalk
     (690, 8, (146, 620)),   #35  Armstead, south sidewalk
     (40, 10, (836, 620)),   #36  West Peachtree, Armstead, south crosswalk
-    (8, 20, (146, 628)),    #37  Spring, south of Armstead, east sidewalk
-    (8, 20, (828, 628))     #38  West Peachtree, south of Armstead, west sidewalk
+    (8, 360, (146, 628)),    #37  Spring, south of Armstead, east sidewalk
+    (8, 360, (828, 628))     #38  West Peachtree, south of Armstead, west sidewalk
 ]
 
 
@@ -85,41 +85,62 @@ for light_set in traffic_lights:
             coords[3] /= person_size
 
 
-goal_coords = [
-    ({'min': (0, grid[11][2][1] / person_size),
-      'max': (0, (grid[11][2][1] + grid[11][1]) / person_size)},
-     {'min': (0, grid[4][2][1] / person_size),
-      'max': (0, (grid[4][2][1] + grid[4][1]) / person_size)}),
-    ({'min': (grid[0][2][0] / person_size, 0),
-      'max': ((grid[0][2][0] + grid[0][0]) / person_size, 0)},
-     {'min': (grid[1][2][0] / person_size, 0),
-      'max': ((grid[1][2][0] + grid[1][0]) / person_size, 0)}),
-    ({'min': (grid[2][2][0] / person_size, 0),
-      'max': ((grid[2][2][0] + grid[2][0]) / person_size, 0)},
-     {'min': (grid[3][2][0] / person_size, 0),
-      'max': ((grid[3][2][0] + grid[3][0]) / person_size, 0)}),
-    ({'min': ((grid[22][2][0] + grid[22][0]) / person_size, grid[22][2][1] / person_size),
-      'max': ((grid[22][2][0] + grid[22][0]) / person_size, (grid[22][2][1] + grid[22][1]) / person_size)},
-     {'min': ((grid[25][2][0] + grid[25][0]) / person_size, grid[25][2][1] / person_size),
-      'max': ((grid[25][2][0] + grid[25][0]) / person_size, (grid[25][2][1] + grid[25][1]) / person_size)})
-]
+#goal_coords = [
+#    ({'min': (0, grid[11][2][1] / person_size),
+#      'max': (0, (grid[11][2][1] + grid[11][1]) / person_size)},
+#     {'min': (0, grid[4][2][1] / person_size),
+#      'max': (0, (grid[4][2][1] + grid[4][1]) / person_size)}),
+#    ({'min': (grid[0][2][0] / person_size, 0),
+#      'max': ((grid[0][2][0] + grid[0][0]) / person_size, 0)},
+#     {'min': (grid[1][2][0] / person_size, 0),
+#      'max': ((grid[1][2][0] + grid[1][0]) / person_size, 0)}),
+#    ({'min': (grid[2][2][0] / person_size, 0),
+#      'max': ((grid[2][2][0] + grid[2][0]) / person_size, 0)},
+#     {'min': (grid[3][2][0] / person_size, 0),
+#      'max': ((grid[3][2][0] + grid[3][0]) / person_size, 0)}),
+#    ({'min': ((grid[22][2][0] + grid[22][0]) / person_size, grid[22][2][1] / person_size),
+#      'max': ((grid[22][2][0] + grid[22][0]) / person_size, (grid[22][2][1] + grid[22][1]) / person_size)},
+#     {'min': ((grid[25][2][0] + grid[25][0]) / person_size, grid[25][2][1] / person_size),
+#      'max': ((grid[25][2][0] + grid[25][0]) / person_size, (grid[25][2][1] + grid[25][1]) / person_size)})
+#]
 
 
 # 313 is the y coordinate for bottom row of cells on Armstead south sidewalk,
 # given in person sized cell coordinates.
 # The range for the x coordinates is 77 - 413, inclusive
-# The x coordinate for spring south sidewalk is 76, the y range is 314 - 323, inclusive
-# The x coordinate for west peachtree south sidewalk is 414, the y range is 314 - 323, inclusive
+# The x coordinate for spring south sidewalk is 76, the y range is 314 - 493, inclusive
+# The x coordinate for west peachtree south sidewalk is 414, the y range is 314 - 493, inclusive # was 323
 door_coords = [
-    {'min': (77, 313),
-     'max': (78, 313)},
-    {'min': (76, 314),
-     'max': (76, 315)},
-    {'min': (414, 314),
-     'max': (414, 315)},
-    {'min': (310, 313),
-     'max': (312, 313)},
-    {'min': (412, 313),
-     'max': (413, 313)}
+    [[200, 313, 1, 0], [202, 313, 1, 0], [204, 313, 1, 0], [206, 313, 1, 0]],
+    [[77, 313, 1, 0], [79, 313, 1, 0]],
+    [[76, 492, 0, 1]],
+    [[414, 492, 0, 1]],
+    [[310, 313, 1, 0]],
+    [[412, 313, 1, 0]]
 ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
