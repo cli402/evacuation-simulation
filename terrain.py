@@ -18,7 +18,8 @@ class Terrain:
 		#Read every value of evacuation feild
 		#And cover them into num stored in a simple 2D list
 		for line in file_handle.readlines() :
-			self.terrain_shape.append([int(num) for num in line.split()])
+			num_list = [int(num) for num in line.split()]
+			if num_list : self.terrain_shape.append(num_list)
 		self.depth = len(self.terrain_shape)
 		self.width = len(self.terrain_shape[3])
 		print 'map created with: width', self.width, 'depth', self.depth
@@ -50,16 +51,27 @@ class Terrain:
 		return available_list
 
 	def valid(self, position):
-		if (position.x < 0) or (position.y < 0) \
-		or (position.x > self.width) or (position.y > self.depth) \
-		or (self.terrain_shape[position.y][position.x] > 30000):
-			return False
+#		print 'Checking', str(position);
+		if (position.x < 0) or (position.y < 0) : return False
+		elif (position.x >= self.width) or (position.y >= self.depth) : return False
+		elif (self.terrain_shape[position.y][position.x] > 30000) : return False
 		else : return True
 			
 	def available(self, position):
 		if not self.valid(position) : return False
 		if self.terrain_set.get(position) : return False
 		else : return True
+
+	def scan_density(self, position, distance):
+		free, occupied = 0,-1
+		for i in range(position.x - distance, position.x + distance + 1) :
+			for j in range(position.y - distance, position.y + distance + 1) :
+				if self.valid(Vector(i,j)) :
+					if self.available(Vector(i,j)) : free += 1
+					else : occupied += 1
+#		print 'scaning free', free, 'occupied', occupied
+		return free, occupied
+
 
 	def move(self, agent, direction):
 		del self.terrain_set[agent.coordinate] 

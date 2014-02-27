@@ -57,8 +57,9 @@ class Engine:
 		direction = agent.moving_direction(available_list) 
 		if direction : 
 			print '[%4d]: ' % self.time_elapse,"agent",agent.ID," move from "+str(agent.coordinate),
+			(free, occupied) = self.terrain.scan_density(agent.coordinate, 3)
 			self.terrain.move(agent, direction)
-			agent.move(direction)
+			agent.move(direction, (free, occupied))
 			print "to " + str(agent.coordinate)
 		else :
 			print '[%4d]: ' % self.time_elapse,"agent",agent.ID,"stucked"

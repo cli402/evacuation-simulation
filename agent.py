@@ -1,6 +1,7 @@
 from vector import Vector
 from event import Event
 import random as rd
+from math import exp
 
 class Agent:
 	ID = ''
@@ -18,6 +19,14 @@ class Agent:
 		self.coordinate = coordinate
 		self.status = 'waiting'
 		self.next_wait_time = 0
+
+	def get_wait_time(self, free, occupied) :
+		coefficient = 1.0 if self.last_move.diagonal() else 1.414
+		if free == 0 : raise ZeroDivisionError 
+		if occupied != 0 : coefficient /= (1-exp(-float(free) / float(occupied)))
+
+		print 'free', free, 'occupied', occupied, 'Coefficient',coefficient
+		return int(self.travel_interval * coefficient)
 		
 	def moving_direction(self, available_list):
 		#low_list is list of direction that goes down
@@ -50,17 +59,16 @@ class Agent:
 			pass
 
 	def next_event(self):
-#		if self.coordinate == self.destination : return Event(self, 'agent_die', 5)
 		return Event(self,'agent_move',self.next_wait_time)
 
-	def move(self, direction):
+	def move(self, direction, density):
 #		print "agent",self.ID," move from "+str(self.coordinate),
 		self.coordinate += direction
 		self.last_move = direction
 		self.status = 'waiting'
 #		print "to " + str(self.coordinate)
-		if direction.diagonal() : self.next_wait_time = int(self.travel_interval*1.414)
-		else : self.next_wait_time = self.travel_interval
+		free, occupied = density
+		self.next_wait_time = self.get_wait_time(free, occupied)
 		return
 	
 	def block(self) :

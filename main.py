@@ -43,11 +43,6 @@ if __name__ == '__main__':
 #Generator list should not be 
 	gen_list = [
 		Generator(5)
-#		Generator(0, (grid_info.door_coords[0]['min'], grid_info.door_coords[0]['max']), grid_info.goal_coords, 5, rand.gaussian_rand, norm.cdf),
-#		Generator(1, (grid_info.door_coords[1]['min'], grid_info.door_coords[1]['max']), grid_info.goal_coords, 7, rand.gaussian_rand, norm.cdf),
-#		Generator(2, (grid_info.door_coords[2]['min'], grid_info.door_coords[2]['max']), grid_info.goal_coords, 10, rand.gaussian_rand, norm.cdf),
-#		Generator(3, (grid_info.door_coords[3]['min'], grid_info.door_coords[3]['max']), grid_info.goal_coords, 8, rand.gaussian_rand, norm.cdf),
-#		Generator(4, (grid_info.door_coords[4]['min'], grid_info.door_coords[4]['max']), grid_info.goal_coords, 13, rand.gaussian_rand, norm.cdf) ]
 	]
 
 	engine = Engine(terrain = Terrain("grid_bits.txt"), initial_event_list = gen_list)
