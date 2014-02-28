@@ -526,7 +526,7 @@ door_pos = [
     random.sample(xrange(18), 6),
     random.sample(xrange(18), 6),
     random.sample(xrange(18), 6),
-    random.sample(xrange(18), 6),
+    random.sample(xrange(18), 6)
 ]
 
 
