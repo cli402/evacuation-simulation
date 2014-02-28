@@ -12,11 +12,17 @@ import grid_info
 
 
 # Define colors
-BLACK = (0, 0, 0)
-BLUE = (0, 0, 255)
-GREEN = (0, 255, 0)
-RED = (255, 0, 0)
-WHITE = ( 255, 255, 255)
+colors = [
+    (0, 0, 255),    # blue
+    (0, 0, 0),      # black
+    (255, 0, 0),    # red
+    (0, 51, 25),    # dark green
+    (153, 0, 153),  # purple
+    (204, 102, 0),  # orange
+    (0, 255, 255),  # aqua
+    (255, 255, 255),# white
+    (0, 0, 0),      # black
+]
 
 
 class UserInterface:
@@ -40,8 +46,8 @@ class UserInterface:
         # Load the background image
         self.bg_img = pygame.image.load(bg_img).convert()
         self.bg_img_original = self.bg_img.copy()  # anytime we zoom, we want to use the original
-        self.bgx = 0
-        self.bgy = 0
+        self.bgx = -100
+        self.bgy = -600
 
         # Used to manage how fast the screen updates
         self.clock = pygame.time.Clock()
@@ -115,7 +121,7 @@ class UserInterface:
     def drawScreen(self, agent_list):
         # First, clear the screen to white. Don't put other drawing commands
         # above this, or they will be erased with this command.
-        self.screen.fill(WHITE)
+        self.screen.fill(colors[-2])
 
         if self.mouse_down:
             pos = pygame.mouse.get_pos()
@@ -133,18 +139,38 @@ class UserInterface:
         # ---------------- End Testing stuff -------------------------------------------
 
 
+        # draw the doors
+        self.drawDoors()
+
+        # draw the agents
         tsize = self.tile_size*self.zoom_level
         for ((coordinateX,coordinateY), agent_ID, agent_status) in agent_list:
             x = coordinateX*tsize + self.bgx
             y = coordinateY*tsize + self.bgy
-            print "(%d, %d)"%(x, y)
-            pygame.draw.ellipse(self.screen, BLUE, [x, y, tsize, tsize], 0)
+            #print "(%d, %d)"%(x, y)
+            color_id = int(agent_ID.split('_')[0])
+            pygame.draw.ellipse(self.screen, colors[color_id], [x, y, tsize, tsize], 0)
 
         # Go ahead and update the screen with what we've drawn.
         pygame.display.flip()
  
         # Limit to 60 frames per second
         self.clock.tick(60)
+
+    def drawDoors(self):
+        tsize = self.tile_size*self.zoom_level
+        for doorlist in self.door_coords:
+            for xcoord, ycoord, w, h in doorlist:
+                if h == 1:
+                    adjustx = 1 if xcoord < 200 else -1
+                else:
+                    adjustx = 0
+                adjusty = 1 if w == 1 else 0
+                for i in xrange(xcoord + adjustx, xcoord + w + 1 + adjustx):
+                    for j in xrange(ycoord + adjusty, ycoord + h + 1 + adjusty):
+                        x = i*tsize + self.bgx
+                        y = j*tsize + self.bgy
+                        pygame.draw.rect(self.screen, colors[-1], (x, y, tsize, tsize), 0)
 
     def testDraw(self):
         cols = 455
@@ -155,18 +181,12 @@ class UserInterface:
                 if self.bit_map[i*cols + j]:
                     x = j*tsize + self.bgx
                     y = i*tsize + self.bgy
-                    pygame.draw.rect(self.screen, RED, (x, y, tsize, tsize), 1)
+                    pygame.draw.rect(self.screen, colors[2], (x, y, tsize, tsize), 1)
 #    
 #
         #door_coords = grid_info.door_coords
         #goal_coords = grid_info.goal_coords
-        for doorlist in self.door_coords:
-            for xcoord, ycoord, w, h in doorlist:
-                for i in xrange(xcoord, xcoord + w + 1):
-                    for j in xrange(ycoord, ycoord + h + 1):
-                        x = i*tsize + self.bgx
-                        y = j*tsize + self.bgy
-                        pygame.draw.rect(self.screen, BLACK, (x, y, tsize, tsize), 0)
+
 #
 #        for goal_set in goal_coords:
 #            for goal in goal_set:
