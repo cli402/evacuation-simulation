@@ -15,7 +15,7 @@ import grid_info
 #Engine Part
 from engine import Engine
 from terrain import Terrain, Traffic_light
-from generator import Generator
+from generator import Generator, Human_source
 
 #random number generator
 import rand
@@ -26,7 +26,7 @@ import time
 
 #UI module
 # macro to switch whether to use user interface or not
-USE_UI = True
+USE_UI = False
 if USE_UI :
 	import ui_module
 end_condition = False
@@ -64,18 +64,19 @@ class Simulator(threading.Thread):
 
 	def __init__(self, queue):
 		self.agent_queue = queue
+		source = Human_source(1500)
 
 		event_list = [
-			Generator('0_0', grid_info.door_coords[0][0], 150, 3),
-			Generator('0_1', grid_info.door_coords[0][1], 150, 3),
-			Generator('0_2', grid_info.door_coords[0][2], 150, 3),
-			Generator('0_3', grid_info.door_coords[0][3], 150, 3),
-			Generator('1_0', grid_info.door_coords[1][0], 150, 3),
-			Generator('1_1', grid_info.door_coords[1][1], 150, 3),
-			Generator('2_0', grid_info.door_coords[2][0], 150, 3),
-			Generator('3_0', grid_info.door_coords[3][0], 150, 3),
-			Generator('4_0', grid_info.door_coords[4][0], 150, 3),
-			Generator('5_0', grid_info.door_coords[5][0], 150, 3)
+			Generator('0_0', grid_info.door_coords[0][0], source, 3),
+			Generator('0_1', grid_info.door_coords[0][1], source, 3),
+			Generator('0_2', grid_info.door_coords[0][2], source, 3),
+			Generator('0_3', grid_info.door_coords[0][3], source, 3),
+			Generator('1_0', grid_info.door_coords[1][0], source, 3),
+			Generator('1_1', grid_info.door_coords[1][1], source, 3),
+			Generator('2_0', grid_info.door_coords[2][0], source, 3),
+			Generator('3_0', grid_info.door_coords[3][0], source, 3),
+			Generator('4_0', grid_info.door_coords[4][0], source, 3),
+			Generator('5_0', grid_info.door_coords[5][0], source, 3)
 		]
 
 		for area, timming, initial_light in grid_info.traffic_lights :

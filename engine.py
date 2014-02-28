@@ -38,8 +38,7 @@ class Engine:
 		assert self.terrain.add_agent(agent) , 'Agent created failure '+str(agent.coordinate)
 		self.event_queue.add_priority_queue(Event(agent, 'agent_move', 0))
 		self.active_agents += 1
-		if generator.left : return True
-		else : return False
+		return generator.left() 
 
 	def light_switch(self, event) :
 		light = event.entity
