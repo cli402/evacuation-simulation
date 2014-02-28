@@ -48,14 +48,21 @@ class Ui(threading.Thread):
 
 	def run(self):
 		global end_condition
+		agents = []
 		while not self.UI.checkEvents():
-			agents = self.agent_queue.get()
-			if end_condition : break
-			#print "Queue size: %d"%self.agent_queue.qsize()
-			#print "End Condition: %s"%end_condition
-			#print "Agent List:"
-			#print agents
-			self.UI.drawScreen(agents)
+			if agents != -1:
+				agents = self.agent_queue.get()
+				#if end_condition : break
+				#print "Queue size: %d"%self.agent_queue.qsize()
+				#print "End Condition: %s"%end_condition
+				#print "Agent List:"
+				#print agents
+				if agents == -1:
+					self.UI.drawScreen([])
+				else:
+					self.UI.drawScreen(agents)
+			else:
+				self.UI.drawScreen([])
 		end_condition = True
 		try : rubbish = self.agent_queue.get_nowait()
 		except : pass
