@@ -26,7 +26,7 @@ import time
 
 #UI module
 # macro to switch whether to use user interface or not
-USE_UI = False
+USE_UI = True
 if USE_UI :
 	import ui_module
 end_condition = False
@@ -66,16 +66,16 @@ class Simulator(threading.Thread):
 		self.agent_queue = queue
 
 		event_list = [
-			Generator('0_0', grid_info.door_coords[0][0], 5, 3),
-#			Generator('0_1', grid_info.door_coords[0][1], 150, 3),
-#			Generator('0_2', grid_info.door_coords[0][2], 150, 3),
-#			Generator('0_3', grid_info.door_coords[0][3], 150, 3),
-#			Generator('1_0', grid_info.door_coords[1][0], 150, 3),
-#			Generator('1_1', grid_info.door_coords[1][1], 150, 3),
-#			Generator('2_0', grid_info.door_coords[2][0], 150, 3),
-#			Generator('3_0', grid_info.door_coords[3][0], 150, 3),
-#			Generator('4_0', grid_info.door_coords[4][0], 150, 3),
-#			Generator('5_0', grid_info.door_coords[5][0], 150, 3)
+			Generator('0_0', grid_info.door_coords[0][0], 150, 3),
+			Generator('0_1', grid_info.door_coords[0][1], 150, 3),
+			Generator('0_2', grid_info.door_coords[0][2], 150, 3),
+			Generator('0_3', grid_info.door_coords[0][3], 150, 3),
+			Generator('1_0', grid_info.door_coords[1][0], 150, 3),
+			Generator('1_1', grid_info.door_coords[1][1], 150, 3),
+			Generator('2_0', grid_info.door_coords[2][0], 150, 3),
+			Generator('3_0', grid_info.door_coords[3][0], 150, 3),
+			Generator('4_0', grid_info.door_coords[4][0], 150, 3),
+			Generator('5_0', grid_info.door_coords[5][0], 150, 3)
 		]
 
 		for area, timming, initial_light in grid_info.traffic_lights :
