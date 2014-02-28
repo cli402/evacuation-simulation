@@ -26,7 +26,7 @@ import time
 
 #UI module
 # macro to switch whether to use user interface or not
-USE_UI = True
+USE_UI = False
 if USE_UI :
 	import ui_module
 end_condition = False
@@ -49,7 +49,14 @@ class Ui(threading.Thread):
 	def run(self):
 		global end_condition
 		while not self.UI.checkEvents():
-			agents = self.agent_queue.get()
+			try:
+				agents = self.agent_queue.get_nowait()
+			except:
+				agents = []
+			#print "Queue size: %d"%self.agent_queue.qsize()
+			#print "End Condition: %s"%end_condition
+			#print "Agent List:"
+			#print agents
 			self.UI.drawScreen(agents)
 		self.UI.quit()
 
@@ -57,21 +64,21 @@ class Simulator(threading.Thread):
 	engine = None
 	agent_queue = None
 
-	def __init__(self, queue):
+	def __init__(self, queue, door_coords):
 		self.agent_queue = queue
 		source = Human_source(1500)
 
 		event_list = [
-			Generator('0_0', grid_info.door_coords[0][0], source, 3),
-			Generator('0_1', grid_info.door_coords[0][1], source, 3),
-			Generator('0_2', grid_info.door_coords[0][2], source, 3),
-			Generator('0_3', grid_info.door_coords[0][3], source, 3),
-			Generator('1_0', grid_info.door_coords[1][0], source, 3),
-			Generator('1_1', grid_info.door_coords[1][1], source, 3),
-			Generator('2_0', grid_info.door_coords[2][0], source, 3),
-			Generator('3_0', grid_info.door_coords[3][0], source, 3),
-			Generator('4_0', grid_info.door_coords[4][0], source, 3),
-			Generator('5_0', grid_info.door_coords[5][0], source, 3)
+			Generator('0_0', door_coords[0][0], source, 3),
+			Generator('0_1', door_coords[0][1], source, 3),
+			Generator('0_2', door_coords[0][2], source, 3),
+			Generator('0_3', door_coords[0][3], source, 3),
+			Generator('1_0', door_coords[1][0], source, 3),
+			Generator('1_1', door_coords[1][1], source, 3),
+			Generator('2_0', door_coords[2][0], source, 3),
+			Generator('3_0', door_coords[3][0], source, 3),
+			Generator('4_0', door_coords[4][0], source, 3),
+			Generator('5_0', door_coords[5][0], source, 3)
 		]
 
 		for area, timming, initial_light in grid_info.traffic_lights :
@@ -98,7 +105,8 @@ class Simulator(threading.Thread):
 		result = self.engine.time_elapse
 		end_condition = True
 
-#Data structure that engine pumped to queue is 
+#To enable engine pump agent information into agent_queue, uncomment line above
+#Data structure that engine pumped to agent is 
 #((coordinate X, coordinate Y), agent ID, agent status)
 #	agent status can be two "waiting" and "blocking"
 #	"waiting" means agent is waiting the CD for next move
@@ -106,12 +114,13 @@ class Simulator(threading.Thread):
 
 
 def run_simulation(door_coords=grid_info.door_coords, seed=int(time.time())):
-	agent_queue = Queue.Queue(100)
+	global result
+	agent_queue = Queue.Queue()
 	rand.srand(seed)
 
 	#gen_list = [ Generator(0, (201, 295, 1, 0), 5, 3) ]
 
-	simulator = Simulator(agent_queue)
+	simulator = Simulator(agent_queue, door_coords)
 	simulator.start()
 
 	if USE_UI:
@@ -122,10 +131,9 @@ def run_simulation(door_coords=grid_info.door_coords, seed=int(time.time())):
 		terminate = True
 	
 	simulator.join()
-	global result
 	return result
 
 
 if __name__ == '__main__':
-	run_simulation()
+	print 'total time',run_simulation()
 
