@@ -34,29 +34,31 @@ class Agent:
 		#this is to urge agent go streight, also avoid aimless wandering on streight road
 		if not available_list : return None
 		low_list = []
+#		print 'Initial_list', available_list
 		for i,(delt,direction) in enumerate(available_list) :
-			if not direction.diagonal :
-				delt *= 2
-				available_list[i] = (delt,direction)
+			if not direction.diagonal() : delt *= 2
 			if delt > 0 : low_list.append((delt,direction))
 			#delt > 0 mean new place lower than current
+#		print 'After double', low_list
 
-		if len(low_list) :	# if there exist lower places, if not will be complete later
-			counter = 0		# for randomization
-			low_list.sort()	
-			low_list.reverse()	#Make low_list descendent that first one always be the greatest
-			for i,(delt,direction) in enumerate(low_list) :
-				if low_list[0][0] - delt >= 10 :	# low place delta value 10 less than the greatest will be eliminated
-					low_list = low_list[:i]
-					break
-				else : counter += delt	#add total counter for randomly choose direction
+		# if there exist lower places, if not will be complete later
+		if not low_list : return None
+		counter = 0		# for randomization
+		low_list.sort()	
+		low_list.reverse()	#Make low_list descendent that first one always be the greatest
+		for i,(delt,direction) in enumerate(low_list) :
+			if low_list[0][0] - delt >= 10 :	# low place delta value 10 less than the greatest will be eliminated
+				low_list = low_list[:i]
+				break
+			else : counter += delt	#add total counter for randomly choose direction
 
-			p = rd.randint(0,counter)	#p is pointer to which to choose
-			for i,(delt,direction) in enumerate(low_list) :
-				p -= delt
-				if p <= 0 : return direction
-		else :	# if there is no available places to go, should be down later
-			pass
+		p = rd.randint(0,counter)	#p is pointer to which to choose
+#		print 'Available Choice', low_list
+		for i,(delt,direction) in enumerate(low_list) :
+			p -= delt
+			if p <= 0 : 
+#				print 'Choose', delt
+				return direction
 
 	def next_event(self):
 		return Event(self,'agent_move',self.next_wait_time)

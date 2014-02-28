@@ -2,7 +2,7 @@ from vector import Vector
 from event import Event
 
 direction_vectors = [Vector(1,1),Vector(1,0),Vector(1,-1),Vector(0,-1),
-					Vector(-1,-1),Vector(-1,0),Vector(-1,-1),Vector(0,1),]
+					Vector(-1,-1),Vector(-1,0),Vector(-1,1),Vector(0,1),]
 
 #class Traffic_light
 
@@ -47,7 +47,7 @@ class Terrain:
 			if self.available(neighborhood) : 
 				delt = self.terrain_shape[agent.coordinate.y][agent.coordinate.x]-self.terrain_shape[neighborhood.y][neighborhood.x]
 				available_list.append((delt,direction))
-#		print 'available surrounding is'+''.join([str(vector) for vector in available_list])
+#		print 'available surrounding is'+''.join([str((delt,str(vector))) for delt,vector in available_list])
 		return available_list
 
 	def valid(self, position):
@@ -85,7 +85,7 @@ class Terrain:
 
 	def block_change(self, area, delta) :
 		for start_point, end_point in area :
-			assert self.valid(start_point) and self.valid(end_point), "Invalid block change coordinate "+str(start_point)+' '+str(end_point)
+#			assert self.valid(start_point) and self.valid(end_point), "Invalid block change coordinate "+str(start_point)+' '+str(end_point)
 			for i in range(start_point.y, end_point.y+1) :
 				for j in range(start_point.x, end_point.x+1) :
 					self.terrain_shape[i][j] += delta
@@ -105,7 +105,7 @@ class Traffic_light():
 
 	def switch(self) :
 		self.current_color *= -1
-		print 'Traffic Light', self.area, 'switch to', 'green' if self.current_color < 0 else 'red'
+#		print 'Traffic Light', self.area, 'switch to', 'green' if self.current_color < 0 else 'red'
 		return self.area, self.current_color * 100
 	
 	def next_event(self) :
