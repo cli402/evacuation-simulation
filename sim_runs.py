@@ -37,7 +37,7 @@ door_pos = [
     #[7, 10, 5, 12, 3, 16],
     #[13, 0, 6, 4, 11, 17],
     #[13, 8, 0, 5, 2, 3],
-    random.sample(xrange(18), 6),
+    random.sample(xrange(18), 6), 
     random.sample(xrange(18), 6),
     random.sample(xrange(18), 6),
     random.sample(xrange(18), 6),
@@ -544,8 +544,8 @@ result_file = 'timestep_results.csv'
 def sim_runs():
     seed = int(time.time())
 
-    #with open(result_file, 'w') as fo:
-    #    fo.write('Time_Steps,4_Door,2_Door,1_Door,1_Door,1_Door,1_Door\n')
+    with open(result_file, 'w') as fo:
+        fo.write('Time_Steps,4_Door,2_Door,1_Door,1_Door,1_Door,1_Door\n')
         
     # 313 is the y coordinate for bottom row of cells on Armstead south sidewalk,
     # given in person sized cell coordinates.
