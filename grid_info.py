@@ -73,37 +73,37 @@ grid = [
 
 traffic_lights = [
 	(
-	[(Vector(53, 7), Vector(73, 12)), (Vector(53, 30), Vector(73, 35))],		#areas
+	[(Vector(54, 7), Vector(72, 12)), (Vector(54, 30), Vector(72, 35))],		#areas
 	(69, 38),				#timming
 	-1,				#initial
 	),
 #5th street & Spring street
 	(
-	[(Vector(48, 12), Vector(54, 30)), (Vector(73, 12), Vector(78,30))],			#areas
+	[(Vector(48, 13), Vector(53, 29)), (Vector(73, 13), Vector(78,29))],			#areas
 	(38, 69),
 	1,
 	),
 
 	(
-	[(Vector(418, 7), Vector(438, 12)), (Vector(418, 30), Vector(438, 35))],		#areas
+	[(Vector(419, 7), Vector(437, 12)), (Vector(419, 30), Vector(439, 35))],		#areas
 	(45, 22),
 	-1,
 	),
 #5th street & West Peachtree
 	(
-	[(Vector(413, 12), Vector(418, 30))],
+	[(Vector(413, 13), Vector(418, 29))],
 	(22, 45),
 	1,
 	),
 
 	(
-	[(Vector(418, 155), Vector(438, 160)), (Vector(418, 175), Vector(438, 130))],
+	[(Vector(419, 155), Vector(437, 160)), (Vector(419, 175), Vector(437, 130))],
 	(45, 35),
 	-1,
 	),
 #5th running east, West Peachtree
 	(
-	[(Vector(438, 160), Vector(443, 175))],
+	[(Vector(438, 161), Vector(443, 174))],
 	(35, 45),
 	1
 	),
