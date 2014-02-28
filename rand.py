@@ -101,6 +101,8 @@ def chi_square_test_uniform_dist(n, k, samples):
         chi_square += float(numerator * numerator) / float(bin_size)
 
     print chi_square
+    with open("chi_square_uniform.csv", "a") as fo:
+        fo.write("%f\n"%chi_square)
 
 
 def chi_square_test_gaussian_dist(n, k, samples, bins, expected_counts):
@@ -122,6 +124,8 @@ def chi_square_test_gaussian_dist(n, k, samples, bins, expected_counts):
         chi_square += float(numerator * numerator) / float(expected_counts[i])
 
     print chi_square
+    with open("chi_square_gaussian.csv", "a") as fo:
+        fo.write("%f\n"%chi_square)
 
 
 # Test uniform distribution
@@ -160,3 +164,4 @@ if __name__ == '__main__':
 
     #test Gaussian distribution
     test_gaussian_dist()
+
