@@ -32,6 +32,8 @@ if USE_UI :
 end_condition = False
 terminate = False
 
+result = 0
+
 class Ui(threading.Thread):
 	UI = None
 
@@ -92,6 +94,7 @@ class Simulator(threading.Thread):
 
 	def run(self):
 		global end_condition
+		global result
 		print 'Starts to run simulation!'
 		while not self.engine.end_condition :
 			self.engine.step_simulate()
@@ -99,6 +102,7 @@ class Simulator(threading.Thread):
 				self.agent_queue.put(self.engine.flush_agent())
 			if terminate:
 				break
+		result = self.engine.time_elapse
 		end_condition = True
 
 #To enable engine pump agent information into agent_queue, uncomment line above
@@ -116,7 +120,7 @@ def run_simulation(door_coords=grid_info.door_coords, seed=int(time.time())):
 	#gen_list = [ Generator(0, (201, 295, 1, 0), 5, 3) ]
 
 	simulator = Simulator(agent_queue)
-	simulator.start()
+	result = simulator.start()
 
 	if USE_UI:
 		ui = Ui(grid_info.grid_size, grid_info.tile_size, agent_queue, door_coords)
@@ -126,6 +130,8 @@ def run_simulation(door_coords=grid_info.door_coords, seed=int(time.time())):
 		terminate = True
 	
 	simulator.join()
+	global result
+	return result
 
 
 if __name__ == '__main__':
