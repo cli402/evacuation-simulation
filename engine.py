@@ -82,6 +82,7 @@ class Engine:
 	#Every time randomly pick an event from queue 0, and execute it
 		event = self.event_queue.get_event()
 		while event :
+			print 'event.entity', event.entity
 			entity = event.entity
 			#Use the event_type as the key to get corresponding fucntion
 			if self.action_list[event.event_type](event) :
