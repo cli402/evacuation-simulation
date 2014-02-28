@@ -73,7 +73,7 @@ class Event_queue:
 		total = 0
 
 		# put all the event that happen inside 50 in to priority queue
-		for scheduled_time, event in enumerate(self.far_event_pool) :
+		for scheduled_time, event in self.far_event_pool :
 			if scheduled_time < MAX_PQ_LENGTH :
 				rear_queue.append(event)
 				total += 1

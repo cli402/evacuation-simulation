@@ -1,5 +1,5 @@
 from vector import Vector
-import struct as st
+from event import Event
 
 direction_vectors = [Vector(1,1),Vector(1,0),Vector(1,-1),Vector(0,-1),
 					Vector(-1,-1),Vector(-1,0),Vector(-1,-1),Vector(0,1),]
@@ -95,17 +95,17 @@ class Traffic_light():
 	green_time, red_time = 0,0
 	current_color = 0
 
-	def __init__(self, light_coordinate, timming, initial_color) :
+	def __init__(self, area, timming, initial_color) :
 #Traffic_light does not really care what format of light area is, Terrain should take care about it 
 #timming is (green_time, red_time)
 #initial_color, -1 means green light, 1 means red light
-		self.area = light_coordinate
+		self.area = area
 		self.green_time, self.red_time = timming
 		self.current_color = initial_color
 
 	def switch(self) :
 		self.current_color *= -1
-		print 'Traffic Light', area, 'switch to', 'green' if self.current_color < 0 else 'red'
+		print 'Traffic Light', self.area, 'switch to', 'green' if self.current_color < 0 else 'red'
 		return self.area, self.current_color * 100
 	
 	def next_event(self) :
