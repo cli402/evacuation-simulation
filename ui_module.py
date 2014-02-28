@@ -154,8 +154,8 @@ class UserInterface:
         # Go ahead and update the screen with what we've drawn.
         pygame.display.flip()
  
-        # Limit to 60 frames per second
-        self.clock.tick(60)
+        # Limit to 30 frames per second
+        self.clock.tick(30)
 
     def drawDoors(self):
         tsize = self.tile_size*self.zoom_level
