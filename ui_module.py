@@ -159,7 +159,7 @@ class UserInterface:
 
     def drawDoors(self):
         tsize = self.tile_size*self.zoom_level
-        for doorlist in self.door_coords:
+        for color_index, doorlist in enumerate(self.door_coords):
             for xcoord, ycoord, w, h in doorlist:
                 if h == 1:
                     adjustx = 1 if xcoord < 200 else -1
@@ -170,7 +170,7 @@ class UserInterface:
                     for j in xrange(ycoord + adjusty, ycoord + h + 1 + adjusty):
                         x = i*tsize + self.bgx
                         y = j*tsize + self.bgy
-                        pygame.draw.rect(self.screen, colors[-1], (x, y, tsize, tsize), 0)
+                        pygame.draw.rect(self.screen, colors[color_index], (x, y, tsize, tsize), 0)
 
     def testDraw(self):
         cols = 455
