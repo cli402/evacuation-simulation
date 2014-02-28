@@ -21,10 +21,12 @@ class Generator:
         #self.goals = utils.sort_goals(self.min_coord, goal_coords)
         self.left = total
         self.consider_time = consider_time
+        self.door_coord_list = [Vector(self.min_coord[0], self.min_coord[1]),
+                                Vector(self.max_coord[0], self.max_coord[1])]
 
-    def generate(self):
-        startx = rand.rand(self.min_coord[0], self.max_coord[0])
-        starty = rand.rand(self.min_coord[1], self.max_coord[1])
+    def generate(self, available_list):
+        assert len(available_list), 'No place to generate on'
+        available_cell = available_list[rand.rand(0, len(available_list) - 1)]
 
         # The tempset and tempgoal variables are just used for storing the random number that was generated
         # so it can be printed. Other than that, they are unnecessary
@@ -48,7 +50,7 @@ class Generator:
         #print travel_interval
 
         #agent = Agent(chr(self.door) + '_' + chr(self.left), travel_interval, 0, Vector(startx, starty), Vector(goalx, goaly))
-        agent = Agent(self.door + '_' + str(self.left), travel_interval, self.consider_time, Vector(startx, starty))
+        agent = Agent(self.door + '_' + str(self.left), travel_interval, self.consider_time, available_cell)
         self.left -= 1
         return agent
 	
