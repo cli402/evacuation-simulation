@@ -28,7 +28,7 @@ class Generator:
 		assert len(available_list), 'No place to generate on'
 		available_cell = available_list[rand.rand(0, len(available_list) - 1)]
 		rand_val = rand.gaussian_rand()
-		travel_interval = int(round(norm.cdf(rand_val)*10.0)) + 1  # add 1 so we don't get a zero velocity
+		travel_interval = int(round(norm.cdf(rand_val)*10.0)) + 12  # we want of range of 12 - 22
 		agent = Agent(self.door + '_' + str(self.left), travel_interval, self.consider_time, available_cell)
 		self.left -= 1
 		return agent
