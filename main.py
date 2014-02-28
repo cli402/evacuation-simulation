@@ -26,7 +26,7 @@ import time
 
 #UI module
 # macro to switch whether to use user interface or not
-USE_UI = False
+USE_UI = True
 if USE_UI :
 	import ui_module
 end_condition = False
@@ -49,15 +49,16 @@ class Ui(threading.Thread):
 	def run(self):
 		global end_condition
 		while not self.UI.checkEvents():
-			try:
-				agents = self.agent_queue.get_nowait()
-			except:
-				agents = []
+			agents = self.agent_queue.get()
+			if end_condition : break
 			#print "Queue size: %d"%self.agent_queue.qsize()
 			#print "End Condition: %s"%end_condition
 			#print "Agent List:"
 			#print agents
 			self.UI.drawScreen(agents)
+		end_condition = True
+		try : rubbish = self.agent_queue.get_nowait()
+		except : pass
 		self.UI.quit()
 
 class Simulator(threading.Thread):
@@ -98,12 +99,14 @@ class Simulator(threading.Thread):
 		print 'Starts to run simulation!'
 		while not self.engine.end_condition :
 			self.engine.step_simulate()
+			if end_condition:
+				break
 			if USE_UI:
 				self.agent_queue.put(self.engine.flush_agent())
-			if terminate:
-				break
 		result = self.engine.time_elapse
 		end_condition = True
+		try : self.agent_queue.put_nowait(-1)
+		except : pass
 
 #To enable engine pump agent information into agent_queue, uncomment line above
 #Data structure that engine pumped to agent is 
