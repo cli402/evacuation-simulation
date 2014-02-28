@@ -26,7 +26,7 @@ import time
 
 #UI module
 # macro to switch whether to use user interface or not
-USE_UI = False
+USE_UI = True
 if USE_UI :
 	import ui_module
 end_condition = False
@@ -49,14 +49,7 @@ class Ui(threading.Thread):
 	def run(self):
 		global end_condition
 		while not self.UI.checkEvents():
-			try:
-				agents = self.agent_queue.get_nowait()
-			except:
-				agents = []
-			#print "Queue size: %d"%self.agent_queue.qsize()
-			#print "End Condition: %s"%end_condition
-			#print "Agent List:"
-			#print agents
+			agents = self.agent_queue.get()
 			self.UI.drawScreen(agents)
 		self.UI.quit()
 
@@ -105,8 +98,7 @@ class Simulator(threading.Thread):
 		result = self.engine.time_elapse
 		end_condition = True
 
-#To enable engine pump agent information into agent_queue, uncomment line above
-#Data structure that engine pumped to agent is 
+#Data structure that engine pumped to queue is 
 #((coordinate X, coordinate Y), agent ID, agent status)
 #	agent status can be two "waiting" and "blocking"
 #	"waiting" means agent is waiting the CD for next move
@@ -114,13 +106,13 @@ class Simulator(threading.Thread):
 
 
 def run_simulation(door_coords=grid_info.door_coords, seed=int(time.time())):
-	agent_queue = Queue.Queue()
+	agent_queue = Queue.Queue(100)
 	rand.srand(seed)
 
 	#gen_list = [ Generator(0, (201, 295, 1, 0), 5, 3) ]
 
 	simulator = Simulator(agent_queue)
-	result = simulator.start()
+	simulator.start()
 
 	if USE_UI:
 		ui = Ui(grid_info.grid_size, grid_info.tile_size, agent_queue, door_coords)

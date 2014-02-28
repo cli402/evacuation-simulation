@@ -121,6 +121,9 @@ class UserInterface:
     def drawScreen(self, agent_list):
         # First, clear the screen to white. Don't put other drawing commands
         # above this, or they will be erased with this command.
+
+        # Limit to 30 frames per second
+        self.clock.tick(30)
         self.screen.fill(colors[-2])
 
         if self.mouse_down:
@@ -138,10 +141,6 @@ class UserInterface:
 
         # ---------------- End Testing stuff -------------------------------------------
 
-
-        # draw the doors
-        self.drawDoors()
-
         # draw the agents
         tsize = self.tile_size*self.zoom_level
         for ((coordinateX,coordinateY), agent_ID, agent_status) in agent_list:
@@ -151,11 +150,13 @@ class UserInterface:
             color_id = int(agent_ID.split('_')[0])
             pygame.draw.ellipse(self.screen, colors[color_id], [x, y, tsize, tsize], 0)
 
+
+        # draw the doors
+        self.drawDoors()
+
         # Go ahead and update the screen with what we've drawn.
         pygame.display.flip()
  
-        # Limit to 30 frames per second
-        self.clock.tick(30)
 
     def drawDoors(self):
         tsize = self.tile_size*self.zoom_level
