@@ -10,9 +10,7 @@
 import threading
 import Queue
 
-#UI module
 import grid_info
-import ui_module
 
 #Engine Part
 from engine import Engine
@@ -26,9 +24,11 @@ import time
 #for gaussian cdf
 #from scipy.stats import norm
 
-
+#UI module
 # macro to switch whether to use user interface or not
-USE_UI = True
+USE_UI = False
+if USE_UI :
+	import ui_module
 end_condition = False
 terminate = False
 
@@ -122,28 +122,4 @@ def run_simulation(door_coords=grid_info.door_coords, seed=int(time.time())):
 
 if __name__ == '__main__':
     run_simulation()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

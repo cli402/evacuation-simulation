@@ -22,7 +22,7 @@ class Agent:
 
 	def get_wait_time(self, free, occupied) :
 		coefficient = 1.0 if self.last_move.diagonal() else 1.414
-		assert free != 0 : 'No place to go, Agent should be blocked' 
+		assert free != 0 , 'No place to go, Agent should be blocked' 
 		if occupied != 0 : coefficient /= (1-exp(-float(free) / float(occupied)))
 
 		print 'free', free, 'occupied', occupied, 'Coefficient',coefficient
@@ -62,11 +62,11 @@ class Agent:
 		return Event(self,'agent_move',self.next_wait_time)
 
 	def move(self, direction, density):
-#		print "agent",self.ID," move from "+str(self.coordinate),
+		print "agent",self.ID," move from "+str(self.coordinate),
 		self.coordinate += direction
 		self.last_move = direction
 		self.status = 'waiting'
-#		print "to " + str(self.coordinate)
+		print "to " + str(self.coordinate)
 		free, occupied = density
 		self.next_wait_time = self.get_wait_time(free, occupied)
 		return

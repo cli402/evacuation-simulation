@@ -18,7 +18,7 @@ class Event():
 	scheduled_time = 0
 	
 	def __init__(self, entity, event_type , scheduled_time = 0) : 
-		assert event_type in self.type_set
+		assert event_type in self.type_set, "Wrong event type of "+event_type
 		self.event_type = event_type
 		self.entity = entity
 		self.scheduled_time = scheduled_time

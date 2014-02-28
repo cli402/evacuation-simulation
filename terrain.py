@@ -62,6 +62,13 @@ class Terrain:
 		if self.terrain_set.get(position) : return False
 		else : return True
 
+	def get_availables(self, coord_list) :
+		available_list = []
+		for coord in coord_list :
+			if self.available(coord) :
+				available_list.append(coord)
+		return available_list
+
 	def scan_density(self, position, distance):
 		free, occupied = 0,-1
 		for i in range(position.x - distance, position.x + distance + 1) :
@@ -78,7 +85,7 @@ class Terrain:
 
 	def block_change(self, area, delta) :
 		for start_point, end_point in area :
-			assert self.valid(start_point) and self.valid(end_point), "Invalid block change coordinate"
+			assert self.valid(start_point) and self.valid(end_point), "Invalid block change coordinate "+str(start_point)+' '+str(end_point)
 			for i in range(start_point.y, end_point.y+1) :
 				for j in range(start_point.x, end_point.x+1) :
 					self.terrain_shape[i][j] += delta

@@ -31,8 +31,11 @@ class Engine:
 	def create_agent(self, event) :
 	#This function is to create an agent and set it on its coordinate on map
 		generator = event.entity
-		agent = generator.generate()
-		assert self.terrain.add_agent(agent) : 'Agent created out of map'
+	#Get the available cells from terrain
+		available_list = self.terrain.get_availables(generator.door_coord_list)
+		if not available_list : return True		# Doors are fully occupied by others, skip this time's generating
+		agent = generator.generate(available_list)
+		assert self.terrain.add_agent(agent) , 'Agent created failure '+str(agent.coordinate)
 		self.event_queue.add_priority_queue(Event(agent, 'agent_move', 0))
 		self.active_agents += 1
 		if generator.left : return True
@@ -62,11 +65,11 @@ class Engine:
 		available_list = self.terrain.get_available_surrounding(agent)
 		direction = agent.moving_direction(available_list) 
 		if direction : 
-			print '[%4d]: ' % self.time_elapse,"agent",agent.ID," move from "+str(agent.coordinate),
+#			print '[%4d]: ' % self.time_elapse,"agent",agent.ID," move from "+str(agent.coordinate),
 			(free, occupied) = self.terrain.scan_density(agent.coordinate, 3)
 			self.terrain.move(agent, direction)
 			agent.move(direction, (free, occupied))
-			print "to " + str(agent.coordinate)
+#			print "to " + str(agent.coordinate)
 		else :
 			print '[%4d]: ' % self.time_elapse,"agent",agent.ID,"stucked"
 			print 'Stuck at:',str(agent.coordinate)
